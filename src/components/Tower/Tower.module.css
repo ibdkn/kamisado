@@ -5,15 +5,33 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%; /* Круглая форма для башен */
-    position: absolute; /* Абсолютное позиционирование для размещения поверх клеток */
-    z-index: 2; /* Задний план поверх клеток */
+    border-radius: 50%;
+    position: absolute;
+    z-index: 2;
+
 }
 
+.active {
+    animation: activeTower linear 1s infinite;
+}
+
+
 .player1 {
-    border: 3px solid black; /* Черная обводка для игрока 1 */
+    border: 10px solid black;
 }
 
 .player2 {
-    border: 3px solid white; /* Белая обводка для игрока 2 */
+    border: 10px solid white;
+}
+
+@keyframes activeTower {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }

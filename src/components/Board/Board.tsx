@@ -1,7 +1,17 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './Board.module.css';
 import {Cell} from "../Cell/Cell";
-import {Tower} from "../Tower/Tower";
+import {PositionType, Tower} from "../Tower/Tower";
+import {log} from "node:util";
+
+// Роль:
+// Отображение игрового поля. Оно включает в себя сетку из клеток, на которых размещаются башни.
+//
+// Функции:
+// 	•	Рендеринг сетки клеток с заданными цветами.
+// 	•	Размещение башен в правильных позициях.
+// 	•	Передача событий кликов на клетки для обработки в App или GameController.
+// 	•	Поддержка корректного отображения башен поверх клеток.
 
 const colors = [
     '#593121', '#6eb2a9', '#31539b', '#d0a915', '#e64675', '#2f8540', '#c53f2d', '#e9672f', // Строка 1
@@ -14,26 +24,54 @@ const colors = [
     '#e9672f', '#c53f2d', '#2f8540', '#e64675', '#d0a915', '#31539b', '#6eb2a9', '#593121', // Строка 8
 ];
 
-type Tower = {
-    color: string;
-    position: { x: number; y: number };
-    player: number;
-};
-
 type BoardProps = {
-    towers: Tower[];
+    towers: Tower[]
+    determineCurrentPlayer: (player: number) => void
+    determineCurrentTower: (position: PositionType, player: number, color: string) => void
+    onTowerClick: (position: PositionType) => void
+    activeTower: PositionType | null
+
+    possibleWay: PositionType[] | null
 };
 
-export const Board: React.FC<BoardProps> = ({ towers }) => {
-    const renderCells = () => {
-        return colors.map((color, index) => (
-            <Cell key={index} color={color} />
-        ));
+export const Board = ({ towers, determineCurrentPlayer, determineCurrentTower, onTowerClick, activeTower, possibleWay }: BoardProps) => {
+
+
+    const handleCellClick = (position: PositionType, color: string) => {
+        // console.log('CELL: ', position, color);
     };
 
+    const handleTowerClick = (position: PositionType, player: number, color: string) => {
+        determineCurrentPlayer(player);
+        determineCurrentTower(position, player, color);
+    };
+
+    // render Cells and Towers
+    const getCellColor = (x: number, y: number) => {
+        const index = y * 8 + x;
+        return colors[index];
+    };
+    const renderCells = () => {
+        const cells = [];
+        for (let y = 0; y < 8; y++) {
+            for (let x = 0; x < 8; x++) {
+                const color = getCellColor(x, y);
+                const position = {x: x + 1, y: y + 1}
+                cells.push(
+                    <Cell key={`${x + 1}-${y + 1}`} position={position} color={color} getCellInfo={handleCellClick} possibleWay={possibleWay}/>
+                );
+            }
+        }
+        return cells;
+    };
     const renderTowers = () => {
         return towers.map((tower, index) => (
-            <Tower key={index} color={tower.color} position={tower.position} player={tower.player}/>
+            <Tower key={index}
+                   tower={tower}
+                   getTowerInfo={handleTowerClick}
+                   isActive={activeTower?.x === tower.position.x && activeTower?.y === tower.position.y}
+                   onTowerClick={onTowerClick}
+            />
         ));
     };
 

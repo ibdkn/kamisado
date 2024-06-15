@@ -1,0 +1,19 @@
+.tower {
+    margin: 5px;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; /* Круглая форма для башен */
+    position: absolute; /* Абсолютное позиционирование для размещения поверх клеток */
+    z-index: 2; /* Задний план поверх клеток */
+}
+
+.player1 {
+    border: 3px solid black; /* Черная обводка для игрока 1 */
+}
+
+.player2 {
+    border: 3px solid white; /* Белая обводка для игрока 2 */
+}

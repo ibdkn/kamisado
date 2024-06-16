@@ -20,9 +20,9 @@ type CellProps = {
 export const Cell = ({ position, color, getCellInfo, possibleWay }: CellProps) => {
     const isPossibleWay = possibleWay?.some(way => way.x === position.x && way.y === position.y);
     const handleClick = () => {
-        getCellInfo(position, color);
-
-        console.log('CELL: ', position)
+        if(isPossibleWay) {
+            getCellInfo(position, color);
+        }
     };
 
     return (

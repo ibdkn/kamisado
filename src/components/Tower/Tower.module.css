@@ -8,13 +8,13 @@
     border-radius: 50%;
     position: absolute;
     z-index: 2;
-
+    cursor: pointer;
+    transition: transform ease-in-out 0.5s;
 }
 
 .active {
     animation: activeTower linear 1s infinite;
 }
-
 
 .player1 {
     border: 10px solid black;

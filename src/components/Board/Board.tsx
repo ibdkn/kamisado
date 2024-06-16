@@ -20,12 +20,13 @@ type BoardProps = {
     onTowerClick: (position: PositionType, player: number, color: string) => void
     activeTower: Tower | null
     possibleWay: PositionType[] | null
+    moveTower: (cellPosition: PositionType, sellColor: string) => void
 };
 
-export const Board = ({ towers, getCurrentPlayer, onTowerClick, activeTower, possibleWay }: BoardProps) => {
+export const Board = ({towers, getCurrentPlayer, onTowerClick, activeTower, possibleWay, moveTower}: BoardProps) => {
 
-    const handleCellClick = (position: PositionType, color: string) => {
-        // console.log('CELL: ', position, color);
+    const handleCellClick = (cellPosition: PositionType, cellColor: string) => {
+        moveTower(cellPosition, cellColor)
     };
 
     const handleTowerClick = (position: PositionType, player: number, color: string) => {
@@ -38,6 +39,7 @@ export const Board = ({ towers, getCurrentPlayer, onTowerClick, activeTower, pos
         const index = y * 8 + x;
         return colors[index];
     };
+
     const renderCells = () => {
         const cells = [];
         for (let y = 0; y < 8; y++) {
@@ -45,7 +47,12 @@ export const Board = ({ towers, getCurrentPlayer, onTowerClick, activeTower, pos
                 const color = getCellColor(x, y);
                 const position = {x: x + 1, y: y + 1}
                 cells.push(
-                    <Cell key={`${x + 1}-${y + 1}`} position={position} color={color} getCellInfo={handleCellClick} possibleWay={possibleWay}/>
+                    <Cell key={`${x + 1}-${y + 1}`}
+                          position={position}
+                          color={color}
+                          getCellInfo={handleCellClick}
+                          possibleWay={possibleWay}
+                    />
                 );
             }
         }
@@ -57,6 +64,7 @@ export const Board = ({ towers, getCurrentPlayer, onTowerClick, activeTower, pos
                    tower={tower}
                    getTowerInfo={handleTowerClick}
                    isActive={activeTower?.position.x === tower.position.x && activeTower?.position.y === tower.position.y}
+                   moveTower={moveTower}
             />
         ));
     };

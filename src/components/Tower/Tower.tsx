@@ -1,12 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styles from './Tower.module.css';
-
-// Роль: Отображение башни игрока. Башни перемещаются по игровому полю и взаимодействуют с другими башнями и клетками.
-//
-// Функции:
-// 	•	Отображение башни с заданным цветом и позицией.
-// 	•	Обработка событий кликов на башне для возможного выбора башни для перемещения.
-// 	•	Рендеринг в правильном месте относительно родительской ячейки.
 
 export type PositionType = {
     x: number;
@@ -14,35 +7,34 @@ export type PositionType = {
 }
 
 export type Tower = {
-    color: string
     position: PositionType
     player: number
+    color: string
 };
 
 export type TowerProps = {
     tower: Tower,
     getTowerInfo: (towerPosition: PositionType, player: number, towerColor: string) => void
-    onTowerClick: (position: PositionType) => void
     isActive: boolean
 };
 
-export const Tower = ({tower, getTowerInfo, onTowerClick, isActive}: TowerProps) => {
+
+export const Tower = ({tower, getTowerInfo, isActive}: TowerProps) => {
+    const style = {
+        backgroundColor: tower.color,
+        top: `${(tower.position.y - 1) * 100}px`, // Позиционирование по оси Y
+        left: `${(tower.position.x - 1) * 100}px`, // Позиционирование по оси X
+    };
 
     const handleClick = () => {
         getTowerInfo(tower.position, tower.player, tower.color);
-        onTowerClick(tower.position)
+        console.log(tower)
 
         // Программный вызов клика на клетке
         const cellElement = document.querySelector(`[data-position="${tower.position.x}-${tower.position.y}"]`);
         if (cellElement) {
             cellElement.dispatchEvent(new MouseEvent('click', { bubbles: true }));
         }
-    };
-
-    const style = {
-        backgroundColor: tower.color,
-        top: `${(tower.position.y - 1) * 100}px`, // Позиционирование по оси Y
-        left: `${(tower.position.x - 1) * 100}px`, // Позиционирование по оси X
     };
 
     // Определение класса для башни в зависимости от игрока

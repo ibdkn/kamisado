@@ -1,17 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styles from './Board.module.css';
 import {Cell} from "../Cell/Cell";
 import {PositionType, Tower} from "../Tower/Tower";
-import {log} from "node:util";
-
-// Роль:
-// Отображение игрового поля. Оно включает в себя сетку из клеток, на которых размещаются башни.
-//
-// Функции:
-// 	•	Рендеринг сетки клеток с заданными цветами.
-// 	•	Размещение башен в правильных позициях.
-// 	•	Передача событий кликов на клетки для обработки в App или GameController.
-// 	•	Поддержка корректного отображения башен поверх клеток.
 
 const colors = [
     '#593121', '#6eb2a9', '#31539b', '#d0a915', '#e64675', '#2f8540', '#c53f2d', '#e9672f', // Строка 1
@@ -26,24 +16,21 @@ const colors = [
 
 type BoardProps = {
     towers: Tower[]
-    determineCurrentPlayer: (player: number) => void
-    determineCurrentTower: (position: PositionType, player: number, color: string) => void
-    onTowerClick: (position: PositionType) => void
-    activeTower: PositionType | null
-
+    getCurrentPlayer: (player: number) => void
+    onTowerClick: (position: PositionType, player: number, color: string) => void
+    activeTower: Tower | null
     possibleWay: PositionType[] | null
 };
 
-export const Board = ({ towers, determineCurrentPlayer, determineCurrentTower, onTowerClick, activeTower, possibleWay }: BoardProps) => {
-
+export const Board = ({ towers, getCurrentPlayer, onTowerClick, activeTower, possibleWay }: BoardProps) => {
 
     const handleCellClick = (position: PositionType, color: string) => {
         // console.log('CELL: ', position, color);
     };
 
     const handleTowerClick = (position: PositionType, player: number, color: string) => {
-        determineCurrentPlayer(player);
-        determineCurrentTower(position, player, color);
+        getCurrentPlayer(player);
+        onTowerClick(position, player, color);
     };
 
     // render Cells and Towers
@@ -69,8 +56,7 @@ export const Board = ({ towers, determineCurrentPlayer, determineCurrentTower, o
             <Tower key={index}
                    tower={tower}
                    getTowerInfo={handleTowerClick}
-                   isActive={activeTower?.x === tower.position.x && activeTower?.y === tower.position.y}
-                   onTowerClick={onTowerClick}
+                   isActive={activeTower?.position.x === tower.position.x && activeTower?.position.y === tower.position.y}
             />
         ));
     };

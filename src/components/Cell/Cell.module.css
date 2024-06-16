@@ -9,6 +9,15 @@
 }
 
 .active {
-    opacity: 0.2;
+    &::before {
+        content: '';
+        position: absolute;
+        margin: 5px;
+        width: 70px;
+        height: 70px;
+        background-color: transparent;
+        border-radius: 50%;
+        border: 10px solid rgba(255, 255, 255, 0.1);
+    }
     cursor: pointer;
 }

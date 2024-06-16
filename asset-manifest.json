@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/kamisado/static/css/main.643cd8e3.css",
+    "main.js": "/kamisado/static/js/main.3417c0ac.js",
+    "static/js/453.c89b84c0.chunk.js": "/kamisado/static/js/453.c89b84c0.chunk.js",
+    "index.html": "/kamisado/index.html",
+    "main.643cd8e3.css.map": "/kamisado/static/css/main.643cd8e3.css.map",
+    "main.3417c0ac.js.map": "/kamisado/static/js/main.3417c0ac.js.map",
+    "453.c89b84c0.chunk.js.map": "/kamisado/static/js/453.c89b84c0.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.643cd8e3.css",
+    "static/js/main.3417c0ac.js"
+  ]
+}
